@@ -1,33 +1,17 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var Global = /** @class */ (function () {
-    function Global() {
-        this.Pawn_Pieces = [];
-        this.Rook_Pieces = [];
-        this.Knight_Pieces = [];
-        this.Bishop_Pieces = [];
-        this.King_Pieces = [];
-        this.Queen_Pieces = [];
-        this.num_pawns = 16;
-        this.move = 'white';
-    }
-    Global.prototype.Change_Play = function () {
+"use strict";
+class Global {
+    Pawn_Pieces = [];
+    Rook_Pieces = [];
+    Knight_Pieces = [];
+    Bishop_Pieces = [];
+    King_Pieces = [];
+    Queen_Pieces = [];
+    num_pawns = 16;
+    move = 'white';
+    Change_Play() {
         if (this.King_Pieces.length != 2) {
             this.move = 'none';
-            var element = document.getElementById('status');
+            let element = document.getElementById('status');
             element.innerText = 'Game ended';
             return;
         }
@@ -37,113 +21,113 @@ var Global = /** @class */ (function () {
         else {
             this.move = 'white';
         }
-    };
-    Global.prototype.Get_Locations = function () {
-        var output = [];
-        var index = 0;
-        for (var i = 0; i < this.Pawn_Pieces.length; i++) {
+    }
+    Get_Locations() {
+        let output = [];
+        let index = 0;
+        for (let i = 0; i < this.Pawn_Pieces.length; i++) {
             output[index] = this.Pawn_Pieces[i].square;
             index++;
         }
-        for (var i = 0; i < this.Rook_Pieces.length; i++) {
+        for (let i = 0; i < this.Rook_Pieces.length; i++) {
             output[index] = this.Rook_Pieces[i].square;
             index++;
         }
-        for (var i = 0; i < this.Knight_Pieces.length; i++) {
+        for (let i = 0; i < this.Knight_Pieces.length; i++) {
             output[index] = this.Knight_Pieces[i].square;
             index++;
         }
-        for (var i = 0; i < this.Bishop_Pieces.length; i++) {
+        for (let i = 0; i < this.Bishop_Pieces.length; i++) {
             output[index] = this.Bishop_Pieces[i].square;
             index++;
         }
-        for (var i = 0; i < this.King_Pieces.length; i++) {
+        for (let i = 0; i < this.King_Pieces.length; i++) {
             output[index] = this.King_Pieces[i].square;
             index++;
         }
-        for (var i = 0; i < this.Queen_Pieces.length; i++) {
+        for (let i = 0; i < this.Queen_Pieces.length; i++) {
             output[index] = this.Queen_Pieces[i].square;
             index++;
         }
         return output;
-    };
-    Global.prototype.Remove_Piece = function (square, color_to_be_removed) {
-        var output = false;
-        for (var i = 0; i < this.Pawn_Pieces.length; i++) {
+    }
+    Remove_Piece(square, color_to_be_removed) {
+        let output = false;
+        for (let i = 0; i < this.Pawn_Pieces.length; i++) {
             if (this.Pawn_Pieces[i].square == square && output == false && this.Pawn_Pieces[i].color == color_to_be_removed) {
                 this.Pawn_Pieces.splice(i, 1);
                 output = true;
             }
         }
-        for (var i = 0; i < this.Rook_Pieces.length; i++) {
+        for (let i = 0; i < this.Rook_Pieces.length; i++) {
             if (this.Rook_Pieces[i].square == square && output == false && this.Rook_Pieces[i].color == color_to_be_removed) {
                 this.Rook_Pieces.splice(i, 1);
                 output = true;
             }
         }
-        for (var i = 0; i < this.Knight_Pieces.length; i++) {
+        for (let i = 0; i < this.Knight_Pieces.length; i++) {
             if (this.Knight_Pieces[i].square == square && output == false && this.Knight_Pieces[i].color == color_to_be_removed) {
                 this.Knight_Pieces.splice(i, 1);
                 output = true;
             }
         }
-        for (var i = 0; i < this.Bishop_Pieces.length; i++) {
+        for (let i = 0; i < this.Bishop_Pieces.length; i++) {
             if (this.Bishop_Pieces[i].square == square && output == false && this.Bishop_Pieces[i].color == color_to_be_removed) {
                 this.Bishop_Pieces.splice(i, 1);
                 output = true;
             }
         }
-        for (var i = 0; i < this.King_Pieces.length; i++) {
+        for (let i = 0; i < this.King_Pieces.length; i++) {
             if (this.King_Pieces[i].square == square && output == false && this.King_Pieces[i].color == color_to_be_removed) {
                 this.King_Pieces.splice(i, 1);
                 output = true;
             }
         }
-        for (var i = 0; i < this.Queen_Pieces.length; i++) {
+        for (let i = 0; i < this.Queen_Pieces.length; i++) {
             if (this.Queen_Pieces[i].square == square && output == false && this.Queen_Pieces[i].color == color_to_be_removed) {
                 this.Queen_Pieces.splice(i, 1);
                 output = true;
             }
         }
         return output;
-    };
-    Global.prototype.Get_Type = function (square) {
-        var output = '';
-        for (var i = 0; i < this.Pawn_Pieces.length; i++) {
+    }
+    Get_Type(square) {
+        let output = '';
+        for (let i = 0; i < this.Pawn_Pieces.length; i++) {
             if (this.Pawn_Pieces[i].square == square) {
                 return 'P';
             }
         }
-        for (var i = 0; i < this.Rook_Pieces.length; i++) {
+        for (let i = 0; i < this.Rook_Pieces.length; i++) {
             if (this.Rook_Pieces[i].square == square) {
                 return 'R';
             }
         }
-        for (var i = 0; i < this.Knight_Pieces.length; i++) {
+        for (let i = 0; i < this.Knight_Pieces.length; i++) {
             if (this.Knight_Pieces[i].square == square) {
                 return 'N';
             }
         }
-        for (var i = 0; i < this.Bishop_Pieces.length; i++) {
+        for (let i = 0; i < this.Bishop_Pieces.length; i++) {
             if (this.Bishop_Pieces[i].square == square) {
                 return 'B';
             }
         }
-        for (var i = 0; i < this.King_Pieces.length; i++) {
+        for (let i = 0; i < this.King_Pieces.length; i++) {
             if (this.King_Pieces[i].square == square) {
                 return 'K';
             }
         }
-        for (var i = 0; i < this.Queen_Pieces.length; i++) {
+        for (let i = 0; i < this.Queen_Pieces.length; i++) {
             if (this.Queen_Pieces[i].square == square) {
                 return 'Q';
             }
         }
         return output;
-    };
-    Global.prototype.Pawn_Promotion = function (piece, color, square) {
-        var removed = false;
-        for (var i = 0; i < this.Pawn_Pieces.length; i++) {
+    }
+    Pawn_Promotion(piece, color, square) {
+        let removed = false;
+        for (let i = 0; i < this.Pawn_Pieces.length; i++) {
             if (this.Pawn_Pieces[i].square == square) {
                 this.Pawn_Pieces.splice(i, 1);
                 removed = true;
@@ -169,12 +153,12 @@ var Global = /** @class */ (function () {
         else {
             return;
         }
-    };
-    Global.prototype.Castle = function (color, destination, square, rook_square) {
-        var output = false;
-        for (var i = 0; i < this.Rook_Pieces.length; i++) {
+    }
+    Castle(color, destination, square, rook_square) {
+        let output = false;
+        for (let i = 0; i < this.Rook_Pieces.length; i++) {
             if (this.Rook_Pieces[i].square == rook_square && this.Rook_Pieces[i].color == color) {
-                for (var c = 0; c < this.King_Pieces.length; c++) {
+                for (let c = 0; c < this.King_Pieces.length; c++) {
                     if (this.King_Pieces[c].color == color) {
                         if (destination > square) {
                             this.Rook_Pieces[i].square = destination - 1;
@@ -191,30 +175,32 @@ var Global = /** @class */ (function () {
             }
         }
         return output;
-    };
-    return Global;
-}());
-var World = new Global();
-var Pieces = /** @class */ (function () {
-    function Pieces(a, b) {
+    }
+}
+let World = new Global();
+class Pieces {
+    square;
+    color;
+    highlight;
+    constructor(a, b) {
         this.square = a;
         this.color = b;
         this.highlight = false;
     }
-    Pieces.prototype.Change_State = function () {
+    Change_State() {
         if (this.highlight) {
             this.highlight = false;
         }
         else {
             this.highlight = true;
         }
-    };
-    Pieces.prototype.Do_Movement = function (destination) {
-        var valid = this.Movement(destination);
-        var output = false;
-        var check = this.color == World.move;
+    }
+    Do_Movement(destination) {
+        let valid = this.Movement(destination);
+        let output = false;
+        let check = this.color == World.move;
         if (valid && check) {
-            var color_to_be_removed = void 0;
+            let color_to_be_removed;
             if (this.color == 'white') {
                 color_to_be_removed = 'black';
             }
@@ -230,63 +216,57 @@ var Pieces = /** @class */ (function () {
         else {
             return output;
         }
-    };
-    Pieces.prototype.Valid_Move_Same_Color_Check = function (destination) {
-        for (var i = 0; i < World.Pawn_Pieces.length; i++) {
+    }
+    Valid_Move_Same_Color_Check(destination) {
+        for (let i = 0; i < World.Pawn_Pieces.length; i++) {
             if (World.Pawn_Pieces[i].square == destination && World.Pawn_Pieces[i].color == this.color) {
                 return false;
             }
         }
-        for (var i = 0; i < World.Rook_Pieces.length; i++) {
+        for (let i = 0; i < World.Rook_Pieces.length; i++) {
             if (World.Rook_Pieces[i].square == destination && World.Rook_Pieces[i].color == this.color) {
                 return false;
             }
         }
-        for (var i = 0; i < World.Knight_Pieces.length; i++) {
+        for (let i = 0; i < World.Knight_Pieces.length; i++) {
             if (World.Knight_Pieces[i].square == destination && World.Knight_Pieces[i].color == this.color) {
                 return false;
             }
         }
-        for (var i = 0; i < World.Bishop_Pieces.length; i++) {
+        for (let i = 0; i < World.Bishop_Pieces.length; i++) {
             if (World.Bishop_Pieces[i].square == destination && World.Knight_Pieces[i].color == this.color) {
                 return false;
             }
         }
-        for (var i = 0; i < World.King_Pieces.length; i++) {
+        for (let i = 0; i < World.King_Pieces.length; i++) {
             if (World.King_Pieces[i].square == destination && World.King_Pieces[i].color == this.color) {
                 return false;
             }
         }
-        for (var i = 0; i < World.Queen_Pieces.length; i++) {
+        for (let i = 0; i < World.Queen_Pieces.length; i++) {
             if (World.Queen_Pieces[i].square == destination && World.Queen_Pieces[i].color == this.color) {
                 return false;
             }
         }
         return true;
-    };
-    return Pieces;
-}());
-var Pawns = /** @class */ (function (_super) {
-    __extends(Pawns, _super);
-    function Pawns(a, b) {
-        var _this = _super.call(this, a, b) || this;
-        _this.EnPassant_Piece_Square = -1;
-        _this.First_Move = true;
-        _this.EnPassant = false;
-        return _this;
     }
-    Pawns.prototype.Movement = function (destination) {
-        var piece_positions = World.Get_Locations();
-        var possible_moves = []; //possible moves with taking
-        var check_moves;
-        var check_take_moves;
-        var index = 0;
-        var check_position = this.square - 8;
-        var temp = true;
-        var row = Math.floor(this.square / 8);
-        var column = this.square - (Math.floor(this.square / 8) * 8);
-        var output = false;
-        var Enpassant_squares = [destination + 1, destination - 1];
+}
+class Pawns extends Pieces {
+    First_Move;
+    EnPassant;
+    EnPassant_Piece_Square = -1;
+    Movement(destination) {
+        let piece_positions = World.Get_Locations();
+        let possible_moves = []; //possible moves with taking
+        let check_moves;
+        let check_take_moves;
+        let index = 0;
+        let check_position = this.square - 8;
+        let temp = true;
+        let row = Math.floor(this.square / 8);
+        let column = this.square - (Math.floor(this.square / 8) * 8);
+        let output = false;
+        let Enpassant_squares = [destination + 1, destination - 1];
         if (this.First_Move) {
             if (this.color == 'white') {
                 check_moves = [this.square - 8, this.square - 16];
@@ -296,9 +276,9 @@ var Pawns = /** @class */ (function (_super) {
                 check_moves = [this.square + 8, this.square + 16];
                 check_take_moves = [this.square + 8 - 1, this.square + 8 + 1];
             }
-            for (var i = 0; i < check_moves.length; i++) {
+            for (let i = 0; i < check_moves.length; i++) {
                 temp = true;
-                for (var c = 0; c < piece_positions.length; c++) {
+                for (let c = 0; c < piece_positions.length; c++) {
                     if (check_moves[i] == piece_positions[c]) {
                         temp = false;
                     }
@@ -308,9 +288,9 @@ var Pawns = /** @class */ (function (_super) {
                     index++;
                 }
             }
-            for (var i = 0; i < check_take_moves.length; i++) {
+            for (let i = 0; i < check_take_moves.length; i++) {
                 temp = false;
-                for (var c = 0; c < piece_positions.length; c++) {
+                for (let c = 0; c < piece_positions.length; c++) {
                     if (check_take_moves[i] == piece_positions[c]) {
                         temp = true;
                     }
@@ -320,21 +300,21 @@ var Pawns = /** @class */ (function (_super) {
                     index++;
                 }
             }
-            for (var i = 0; i < possible_moves.length; i++) {
+            for (let i = 0; i < possible_moves.length; i++) {
                 if (possible_moves[i] == destination) {
                     output = true;
                 }
             }
             if (output) {
-                var color_to_be_removed = void 0;
+                let color_to_be_removed;
                 if (this.color == 'white') {
                     color_to_be_removed = 'black';
                 }
                 else {
                     color_to_be_removed = 'white';
                 }
-                for (var j = 0; j < Enpassant_squares.length; j++) {
-                    for (var i = 0; i < World.Pawn_Pieces.length; i++) {
+                for (let j = 0; j < Enpassant_squares.length; j++) {
+                    for (let i = 0; i < World.Pawn_Pieces.length; i++) {
                         if (World.Pawn_Pieces[i].color == color_to_be_removed && World.Pawn_Pieces[i].square == Enpassant_squares[j]) {
                             World.Pawn_Pieces[i].EnPassant = true;
                             World.Pawn_Pieces[i].EnPassant_Piece_Square = destination;
@@ -360,9 +340,9 @@ var Pawns = /** @class */ (function (_super) {
                 possible_moves = [this.EnPassant_Piece_Square + 8];
                 index++;
             }
-            for (var i = 0; i < check_moves.length; i++) {
+            for (let i = 0; i < check_moves.length; i++) {
                 temp = true;
-                for (var c = 0; c < piece_positions.length; c++) {
+                for (let c = 0; c < piece_positions.length; c++) {
                     if (check_moves[i] == piece_positions[c]) {
                         temp = false;
                     }
@@ -372,9 +352,9 @@ var Pawns = /** @class */ (function (_super) {
                     index++;
                 }
             }
-            for (var i = 0; i < check_take_moves.length; i++) {
+            for (let i = 0; i < check_take_moves.length; i++) {
                 temp = false;
-                for (var c = 0; c < piece_positions.length; c++) {
+                for (let c = 0; c < piece_positions.length; c++) {
                     if (check_take_moves[i] == piece_positions[c]) {
                         temp = true;
                     }
@@ -384,7 +364,7 @@ var Pawns = /** @class */ (function (_super) {
                     index++;
                 }
             }
-            for (var i = 0; i < possible_moves.length; i++) {
+            for (let i = 0; i < possible_moves.length; i++) {
                 if (possible_moves[i] == destination) {
                     output = true;
                 }
@@ -403,9 +383,9 @@ var Pawns = /** @class */ (function (_super) {
                 check_moves = [this.square + 8];
                 check_take_moves = [this.square + 8 - 1, this.square + 8 + 1];
             }
-            for (var i = 0; i < check_moves.length; i++) {
+            for (let i = 0; i < check_moves.length; i++) {
                 temp = true;
-                for (var c = 0; c < piece_positions.length; c++) {
+                for (let c = 0; c < piece_positions.length; c++) {
                     if (check_moves[i] == piece_positions[c]) {
                         temp = false;
                     }
@@ -415,9 +395,9 @@ var Pawns = /** @class */ (function (_super) {
                     index++;
                 }
             }
-            for (var i = 0; i < check_take_moves.length; i++) {
+            for (let i = 0; i < check_take_moves.length; i++) {
                 temp = false;
-                for (var c = 0; c < piece_positions.length; c++) {
+                for (let c = 0; c < piece_positions.length; c++) {
                     if (check_take_moves[i] == piece_positions[c]) {
                         temp = true;
                     }
@@ -427,7 +407,7 @@ var Pawns = /** @class */ (function (_super) {
                     index++;
                 }
             }
-            for (var i = 0; i < possible_moves.length; i++) {
+            for (let i = 0; i < possible_moves.length; i++) {
                 if (possible_moves[i] == destination) {
                     output = true;
                 }
@@ -437,15 +417,15 @@ var Pawns = /** @class */ (function (_super) {
             }
             return output;
         }
-    };
-    Pawns.prototype.Promote = function (piece) {
+    }
+    Promote(piece) {
         World.Pawn_Promotion(piece, this.color, this.square);
-    };
-    Pawns.prototype.Do_Pawn_Movement = function (destination) {
-        var valid = this.Movement(destination);
-        var check = this.color == World.move;
+    }
+    Do_Pawn_Movement(destination) {
+        let valid = this.Movement(destination);
+        let check = this.color == World.move;
         if (valid == true && this.EnPassant == true && Math.abs(destination - this.EnPassant_Piece_Square) == 8 && check == true) {
-            var color_to_be_removed = void 0;
+            let color_to_be_removed;
             if (this.color == 'white') {
                 color_to_be_removed = 'black';
             }
@@ -462,9 +442,9 @@ var Pawns = /** @class */ (function (_super) {
         else if (valid && check) {
             //Pawn promotion
             if (Math.floor(destination / 8) == 0 || Math.floor(destination / 8) == 7) {
-                var preference_element = document.getElementById('promote-preference');
-                var value = preference_element.value;
-                var color_to_be_removed = void 0;
+                let preference_element = document.getElementById('promote-preference');
+                let value = preference_element.value;
+                let color_to_be_removed;
                 if (this.color == 'white') {
                     color_to_be_removed = 'black';
                 }
@@ -478,7 +458,7 @@ var Pawns = /** @class */ (function (_super) {
                 return true;
             }
             else {
-                var color_to_be_removed = void 0;
+                let color_to_be_removed;
                 if (this.color == 'white') {
                     color_to_be_removed = 'black';
                 }
@@ -494,24 +474,24 @@ var Pawns = /** @class */ (function (_super) {
         else {
             return false;
         }
-    };
-    return Pawns;
-}(Pieces));
-var Rooks = /** @class */ (function (_super) {
-    __extends(Rooks, _super);
-    function Rooks(a, b) {
-        return _super.call(this, a, b) || this;
     }
-    Rooks.prototype.Movement = function (destination) {
-        var piece_positions = World.Get_Locations();
-        var possible_moves = []; //possible moves with taking
-        var index = 0;
-        var check_position = this.square - 8;
-        var temp = true;
-        var row = Math.floor(this.square / 8);
-        var output = false;
+    constructor(a, b) {
+        super(a, b);
+        this.First_Move = true;
+        this.EnPassant = false;
+    }
+}
+class Rooks extends Pieces {
+    Movement(destination) {
+        let piece_positions = World.Get_Locations();
+        let possible_moves = []; //possible moves with taking
+        let index = 0;
+        let check_position = this.square - 8;
+        let temp = true;
+        let row = Math.floor(this.square / 8);
+        let output = false;
         while (check_position >= 0 && temp == true) {
-            for (var i = 0; i < piece_positions.length; i++) {
+            for (let i = 0; i < piece_positions.length; i++) {
                 if (piece_positions[i] == check_position) {
                     temp = false;
                 }
@@ -529,7 +509,7 @@ var Rooks = /** @class */ (function (_super) {
         temp = true;
         check_position = this.square + 8;
         while (check_position <= 63 && temp == true) {
-            for (var i = 0; i < piece_positions.length; i++) {
+            for (let i = 0; i < piece_positions.length; i++) {
                 if (piece_positions[i] == check_position) {
                     temp = false;
                 }
@@ -547,7 +527,7 @@ var Rooks = /** @class */ (function (_super) {
         temp = true;
         check_position = this.square - 1;
         while (check_position >= (row * 8) && temp == true) {
-            for (var i = 0; i < piece_positions.length; i++) {
+            for (let i = 0; i < piece_positions.length; i++) {
                 if (piece_positions[i] == check_position) {
                     temp = false;
                 }
@@ -565,7 +545,7 @@ var Rooks = /** @class */ (function (_super) {
         temp = true;
         check_position = this.square + 1;
         while (check_position <= ((row * 8 + 7)) && temp == true) {
-            for (var i = 0; i < piece_positions.length; i++) {
+            for (let i = 0; i < piece_positions.length; i++) {
                 if (piece_positions[i] == check_position) {
                     temp = false;
                 }
@@ -580,7 +560,7 @@ var Rooks = /** @class */ (function (_super) {
                 index++;
             }
         }
-        for (var i = 0; i < possible_moves.length; i++) {
+        for (let i = 0; i < possible_moves.length; i++) {
             if (possible_moves[i] == destination) {
                 output = true;
             }
@@ -589,22 +569,20 @@ var Rooks = /** @class */ (function (_super) {
             output = this.Valid_Move_Same_Color_Check(destination);
         }
         return output;
-    };
-    return Rooks;
-}(Pieces));
-var Knights = /** @class */ (function (_super) {
-    __extends(Knights, _super);
-    function Knights(a, b) {
-        return _super.call(this, a, b) || this;
     }
-    Knights.prototype.Movement = function (destination) {
-        var check_moves = [this.square - 16 - 1, this.square - 16 + 1, this.square + 16 - 1, this.square + 16 + 1, this.square - 8 - 2, this.square - 8 + 2, this.square + 8 - 2, this.square + 8 + 2];
-        var possible_moves = [];
-        var column = this.square - (Math.floor(this.square / 8) * 8);
-        var output = false;
-        var index = 0;
-        var temp = true;
-        for (var i = 0; i < check_moves.length; i++) {
+    constructor(a, b) {
+        super(a, b);
+    }
+}
+class Knights extends Pieces {
+    Movement(destination) {
+        let check_moves = [this.square - 16 - 1, this.square - 16 + 1, this.square + 16 - 1, this.square + 16 + 1, this.square - 8 - 2, this.square - 8 + 2, this.square + 8 - 2, this.square + 8 + 2];
+        let possible_moves = [];
+        let column = this.square - (Math.floor(this.square / 8) * 8);
+        let output = false;
+        let index = 0;
+        let temp = true;
+        for (let i = 0; i < check_moves.length; i++) {
             temp = true;
             if ((check_moves[i] - (Math.floor(check_moves[i] / 8) * 8)) != (column - 1) && (check_moves[i] - (Math.floor(check_moves[i] / 8) * 8)) != (column + 1) && (check_moves[i] - (Math.floor(check_moves[i] / 8) * 8)) != (column - 2) && (check_moves[i] - (Math.floor(check_moves[i] / 8) * 8)) != (column + 2)) {
                 temp = false;
@@ -617,7 +595,7 @@ var Knights = /** @class */ (function (_super) {
                 index++;
             }
         }
-        for (var i = 0; i < possible_moves.length; i++) {
+        for (let i = 0; i < possible_moves.length; i++) {
             if (possible_moves[i] == destination) {
                 output = true;
             }
@@ -626,24 +604,22 @@ var Knights = /** @class */ (function (_super) {
             output = this.Valid_Move_Same_Color_Check(destination);
         }
         return output;
-    };
-    return Knights;
-}(Pieces));
-var Bishops = /** @class */ (function (_super) {
-    __extends(Bishops, _super);
-    function Bishops(a, b) {
-        return _super.call(this, a, b) || this;
     }
-    Bishops.prototype.Movement = function (destination) {
-        var piece_positions = World.Get_Locations();
-        var possible_moves = []; //possible moves with taking
-        var index = 0;
-        var check_position = this.square - 8 - 1;
-        var column = this.square - (Math.floor(this.square / 8) * 8);
-        var temp = true;
-        var output = false;
+    constructor(a, b) {
+        super(a, b);
+    }
+}
+class Bishops extends Pieces {
+    Movement(destination) {
+        let piece_positions = World.Get_Locations();
+        let possible_moves = []; //possible moves with taking
+        let index = 0;
+        let check_position = this.square - 8 - 1;
+        let column = this.square - (Math.floor(this.square / 8) * 8);
+        let temp = true;
+        let output = false;
         while (check_position >= 0 && temp == true && (check_position - (Math.floor(check_position / 8) * 8)) < column) {
-            for (var i = 0; i < piece_positions.length; i++) {
+            for (let i = 0; i < piece_positions.length; i++) {
                 if (piece_positions[i] == check_position) {
                     temp = false;
                 }
@@ -661,7 +637,7 @@ var Bishops = /** @class */ (function (_super) {
         temp = true;
         check_position = this.square - 8 + 1;
         while (check_position >= 0 && temp == true && (check_position - (Math.floor(check_position / 8) * 8)) > column) {
-            for (var i = 0; i < piece_positions.length; i++) {
+            for (let i = 0; i < piece_positions.length; i++) {
                 if (piece_positions[i] == check_position) {
                     temp = false;
                 }
@@ -679,7 +655,7 @@ var Bishops = /** @class */ (function (_super) {
         temp = true;
         check_position = this.square + 8 - 1;
         while (check_position <= 63 && temp == true && (check_position - (Math.floor(check_position / 8) * 8)) < column) {
-            for (var i = 0; i < piece_positions.length; i++) {
+            for (let i = 0; i < piece_positions.length; i++) {
                 if (piece_positions[i] == check_position) {
                     temp = false;
                 }
@@ -697,7 +673,7 @@ var Bishops = /** @class */ (function (_super) {
         temp = true;
         check_position = this.square + 8 + 1;
         while (check_position <= 63 && temp == true && (check_position - (Math.floor(check_position / 8) * 8)) > column) {
-            for (var i = 0; i < piece_positions.length; i++) {
+            for (let i = 0; i < piece_positions.length; i++) {
                 if (piece_positions[i] == check_position) {
                     temp = false;
                 }
@@ -712,7 +688,7 @@ var Bishops = /** @class */ (function (_super) {
                 index++;
             }
         }
-        for (var i = 0; i < possible_moves.length; i++) {
+        for (let i = 0; i < possible_moves.length; i++) {
             if (possible_moves[i] == destination) {
                 output = true;
             }
@@ -721,24 +697,21 @@ var Bishops = /** @class */ (function (_super) {
             output = this.Valid_Move_Same_Color_Check(destination);
         }
         return output;
-    };
-    return Bishops;
-}(Pieces));
-var Kings = /** @class */ (function (_super) {
-    __extends(Kings, _super);
-    function Kings(a, b) {
-        var _this = _super.call(this, a, b) || this;
-        _this.castled = false;
-        return _this;
     }
-    Kings.prototype.Movement = function (destination) {
-        var check_moves = [this.square - 8, this.square + 8, this.square - 1, this.square + 1, this.square - 8 - 1, this.square - 8 + 1, this.square + 8 - 1, this.square + 8 + 1];
-        var possible_moves = [];
-        var column = this.square - (Math.floor(this.square / 8) * 8);
-        var output = false;
-        var index = 0;
-        var temp = true;
-        for (var i = 0; i < check_moves.length; i++) {
+    constructor(a, b) {
+        super(a, b);
+    }
+}
+class Kings extends Pieces {
+    castled;
+    Movement(destination) {
+        let check_moves = [this.square - 8, this.square + 8, this.square - 1, this.square + 1, this.square - 8 - 1, this.square - 8 + 1, this.square + 8 - 1, this.square + 8 + 1];
+        let possible_moves = [];
+        let column = this.square - (Math.floor(this.square / 8) * 8);
+        let output = false;
+        let index = 0;
+        let temp = true;
+        for (let i = 0; i < check_moves.length; i++) {
             temp = true;
             if (Math.abs((check_moves[i] - (Math.floor(check_moves[i] / 8) * 8) - column)) > 1) {
                 temp = false;
@@ -755,7 +728,7 @@ var Kings = /** @class */ (function (_super) {
             possible_moves.push(this.square - 2);
             possible_moves.push(this.square + 2);
         }
-        for (var i = 0; i < possible_moves.length; i++) {
+        for (let i = 0; i < possible_moves.length; i++) {
             if (possible_moves[i] == destination) {
                 output = true;
             }
@@ -764,14 +737,14 @@ var Kings = /** @class */ (function (_super) {
             output = this.Valid_Move_Same_Color_Check(destination);
         }
         return output;
-    };
-    Kings.prototype.Do_King_Movement = function (destination) {
-        var valid = this.Movement(destination);
-        var output = false;
-        var check = this.color == World.move;
-        var castle_check = destination == (this.square - 2) || destination == (this.square + 2);
+    }
+    Do_King_Movement(destination) {
+        let valid = this.Movement(destination);
+        let output = false;
+        let check = this.color == World.move;
+        let castle_check = destination == (this.square - 2) || destination == (this.square + 2);
         if (valid && check && castle_check == false) {
-            var color_to_be_removed = void 0;
+            let color_to_be_removed;
             if (this.color == 'white') {
                 color_to_be_removed = 'black';
             }
@@ -786,11 +759,11 @@ var Kings = /** @class */ (function (_super) {
             return output;
         }
         else if (valid && check && castle_check) {
-            var locations = World.Get_Locations();
-            var check_squares = void 0;
-            var rook_square = void 0;
-            var rook_check = void 0;
-            var empty_check = true;
+            let locations = World.Get_Locations();
+            let check_squares;
+            let rook_square;
+            let rook_check;
+            let empty_check = true;
             if (destination == (this.square - 2)) {
                 check_squares = [this.square - 1, this.square - 2, this.square - 3];
                 rook_square = this.square - 4;
@@ -803,8 +776,8 @@ var Kings = /** @class */ (function (_super) {
             if (!rook_check) {
                 return output;
             }
-            for (var i = 0; i < check_squares.length; i++) {
-                for (var c = 0; c < locations.length; c++) {
+            for (let i = 0; i < check_squares.length; i++) {
+                for (let c = 0; c < locations.length; c++) {
                     if (check_squares[i] == locations[c]) {
                         empty_check = false;
                     }
@@ -813,7 +786,7 @@ var Kings = /** @class */ (function (_super) {
             if (!empty_check) {
                 return output;
             }
-            var Castle_result = World.Castle(this.color, destination, this.square, rook_square);
+            let Castle_result = World.Castle(this.color, destination, this.square, rook_square);
             console.log(Castle_result);
             if (Castle_result) {
                 output = true;
@@ -825,25 +798,24 @@ var Kings = /** @class */ (function (_super) {
         else {
             return output;
         }
-    };
-    return Kings;
-}(Pieces));
-var Queens = /** @class */ (function (_super) {
-    __extends(Queens, _super);
-    function Queens(a, b) {
-        return _super.call(this, a, b) || this;
     }
-    Queens.prototype.Movement = function (destination) {
-        var piece_positions = World.Get_Locations();
-        var possible_moves = []; //possible moves with taking
-        var index = 0;
-        var check_position = this.square - 8;
-        var temp = true;
-        var row = Math.floor(this.square / 8);
-        var column = this.square - (Math.floor(this.square / 8) * 8);
-        var output = false;
+    constructor(a, b) {
+        super(a, b);
+        this.castled = false;
+    }
+}
+class Queens extends Pieces {
+    Movement(destination) {
+        let piece_positions = World.Get_Locations();
+        let possible_moves = []; //possible moves with taking
+        let index = 0;
+        let check_position = this.square - 8;
+        let temp = true;
+        let row = Math.floor(this.square / 8);
+        let column = this.square - (Math.floor(this.square / 8) * 8);
+        let output = false;
         while (check_position >= 0 && temp == true) {
-            for (var i = 0; i < piece_positions.length; i++) {
+            for (let i = 0; i < piece_positions.length; i++) {
                 if (piece_positions[i] == check_position) {
                     temp = false;
                 }
@@ -861,7 +833,7 @@ var Queens = /** @class */ (function (_super) {
         temp = true;
         check_position = this.square + 8;
         while (check_position <= 63 && temp == true) {
-            for (var i = 0; i < piece_positions.length; i++) {
+            for (let i = 0; i < piece_positions.length; i++) {
                 if (piece_positions[i] == check_position) {
                     temp = false;
                 }
@@ -879,7 +851,7 @@ var Queens = /** @class */ (function (_super) {
         temp = true;
         check_position = this.square - 1;
         while (check_position >= (row * 8) && temp == true) {
-            for (var i = 0; i < piece_positions.length; i++) {
+            for (let i = 0; i < piece_positions.length; i++) {
                 if (piece_positions[i] == check_position) {
                     temp = false;
                 }
@@ -897,7 +869,7 @@ var Queens = /** @class */ (function (_super) {
         temp = true;
         check_position = this.square + 1;
         while (check_position <= ((row * 8 + 7)) && temp == true) {
-            for (var i = 0; i < piece_positions.length; i++) {
+            for (let i = 0; i < piece_positions.length; i++) {
                 if (piece_positions[i] == check_position) {
                     temp = false;
                 }
@@ -915,7 +887,7 @@ var Queens = /** @class */ (function (_super) {
         check_position = this.square - 8 - 1;
         temp = true;
         while (check_position >= 0 && temp == true && (check_position - (Math.floor(check_position / 8) * 8)) < column) {
-            for (var i = 0; i < piece_positions.length; i++) {
+            for (let i = 0; i < piece_positions.length; i++) {
                 if (piece_positions[i] == check_position) {
                     temp = false;
                 }
@@ -933,7 +905,7 @@ var Queens = /** @class */ (function (_super) {
         temp = true;
         check_position = this.square - 8 + 1;
         while (check_position >= 0 && temp == true && (check_position - (Math.floor(check_position / 8) * 8)) > column) {
-            for (var i = 0; i < piece_positions.length; i++) {
+            for (let i = 0; i < piece_positions.length; i++) {
                 if (piece_positions[i] == check_position) {
                     temp = false;
                 }
@@ -951,7 +923,7 @@ var Queens = /** @class */ (function (_super) {
         temp = true;
         check_position = this.square + 8 - 1;
         while (check_position <= 63 && temp == true && (check_position - (Math.floor(check_position / 8) * 8)) < column) {
-            for (var i = 0; i < piece_positions.length; i++) {
+            for (let i = 0; i < piece_positions.length; i++) {
                 if (piece_positions[i] == check_position) {
                     temp = false;
                 }
@@ -969,7 +941,7 @@ var Queens = /** @class */ (function (_super) {
         temp = true;
         check_position = this.square + 8 + 1;
         while (check_position <= 63 && temp == true && (check_position - (Math.floor(check_position / 8) * 8)) > column) {
-            for (var i = 0; i < piece_positions.length; i++) {
+            for (let i = 0; i < piece_positions.length; i++) {
                 if (piece_positions[i] == check_position) {
                     temp = false;
                 }
@@ -984,7 +956,7 @@ var Queens = /** @class */ (function (_super) {
                 index++;
             }
         }
-        for (var i = 0; i < possible_moves.length; i++) {
+        for (let i = 0; i < possible_moves.length; i++) {
             if (possible_moves[i] == destination) {
                 output = true;
             }
@@ -993,9 +965,11 @@ var Queens = /** @class */ (function (_super) {
             output = this.Valid_Move_Same_Color_Check(destination);
         }
         return output;
-    };
-    return Queens;
-}(Pieces));
+    }
+    constructor(a, b) {
+        super(a, b);
+    }
+}
 function Create_Pieces() {
     World.Pawn_Pieces = [];
     World.Rook_Pieces = [];
@@ -1004,7 +978,7 @@ function Create_Pieces() {
     World.King_Pieces = [];
     World.Queen_Pieces = [];
     //creating all pawns
-    for (var i = 0; i < 16; i++) {
+    for (let i = 0; i < 16; i++) {
         if (i < 8) {
             World.Pawn_Pieces[i] = new Pawns(6 * 8 + i, 'white');
         }
@@ -1035,7 +1009,6 @@ function Create_Pieces() {
     World.Queen_Pieces[1] = new Queens(3, 'black');
 }
 //TO-DO LIST:
-//-castling
 //-Actual Pieces rather than stand-ins(letters)
 //-Actual Frontend
 //-Some rudementary chess bot(only if I feel like it is unnnecessary)

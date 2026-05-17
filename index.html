@@ -5,24 +5,27 @@
         <meta charset="utf-8">
         <title>Šachy</title>
         <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
     </head>
 
-    <body>
-        <button onclick="Utility.Generate_Board(); Utility.Display_Board()">Start Game</button>
-        <button onclick="Utility.Display_Board()">Update Board</button>
-        <select id="promote-preference">
-            <option value="N">Knight</option>
-            <option value="B">Bishop</option>
-            <option value="R">Rook</option>
-            <option value="Q">Queen</option>
-        </select>
+    <body background="candidates1959.png">
+        <section class="w3-card-4" id="main-card">
+            <button onclick="Utility.Generate_Board(); Utility.Display_Board()" class="w3-button w3-teal" id="start-button">Start Game</button>
 
-        <section id="chessboard" onclick="Utility.Display_Board()">
+            <select id="promote-preference" class="w3-select">
+                <option value="N">Knight</option>
+                <option value="B">Bishop</option>
+                <option value="R">Rook</option>
+                <option value="Q">Queen</option>
+            </select>
+
+            <section id="chessboard" onclick="Utility.Display_Board()">
+            </section>
+
+            <div id="status">Status: Game not started</div>
+
+            <script src="data.js"></script>
+            <script src="script.js"></script>
         </section>
-
-        <div id="status">Status: Game not started</div>
-
-        <script src="data.js"></script>
-        <script src="script.js"></script>
     </body>
 </html>

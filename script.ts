@@ -19,15 +19,15 @@ class Utils{
             for(let c = 0; c < this.boardsize; c++){
                 if((i % 2) == 0){
                     if((c % 2) == 0){//dark-squared
-                        board_element.innerHTML += '<div id="cell-' + String((i*8) + c) + '" class="dark_square" style="height:' + String(40 / this.boardsize) + 'vw; width:' + String(40 / this.boardsize) + 'vw; font-size:' + String(20 / this.boardsize) + 'vw;" onclick="Utility.Selection(' + String(i*8 + c) + ')"></div>';
+                        board_element.innerHTML += '<div id="cell-' + String((i*8) + c) + '" class="dark_square" style="height:' + String(40 / this.boardsize) + 'vw; width:' + String(40 / this.boardsize) + 'vw; font-size:' + String(20 / this.boardsize) + 'vw;" onclick="Utility.Selection(' + String(i*8 + c) + ')"><img class="pieces" id="img-' + String((i*8) + c) + '"></div>';
                     }else if((c % 2) == 1){//light-squared
-                        board_element.innerHTML += '<div id="cell-' + String((i*8) + c) + '" class="light_square" style="height:' + String(40 / this.boardsize) + 'vw; width:' + String(40 / this.boardsize) + 'vw; font-size:' + String(20 / this.boardsize) + 'vw;" onclick="Utility.Selection(' + String(i*8 + c) + ')"></div>';
+                        board_element.innerHTML += '<div id="cell-' + String((i*8) + c) + '" class="light_square" style="height:' + String(40 / this.boardsize) + 'vw; width:' + String(40 / this.boardsize) + 'vw; font-size:' + String(20 / this.boardsize) + 'vw;" onclick="Utility.Selection(' + String(i*8 + c) + ')"><img class="pieces" id="img-' + String((i*8) + c) + '"><img></div>';
                     }
                 }else if((i % 2) == 1){
                     if((c % 2) == 1){//dark-squared
-                        board_element.innerHTML += '<div id="cell-' + String((i*8) + c) + '" class="dark_square" style="height:' + String(40 / this.boardsize) + 'vw; width:' + String(40 / this.boardsize) + 'vw; font-size:' + String(20 / this.boardsize) + 'vw;" onclick="Utility.Selection(' + String(i*8 + c) + ')"></div>';
+                        board_element.innerHTML += '<div id="cell-' + String((i*8) + c) + '" class="dark_square" style="height:' + String(40 / this.boardsize) + 'vw; width:' + String(40 / this.boardsize) + 'vw; font-size:' + String(20 / this.boardsize) + 'vw;" onclick="Utility.Selection(' + String(i*8 + c) + ')"><img class="pieces" id="img-' + String((i*8) + c) + '"></div>';
                     }else if((c % 2) == 0){//light-squared
-                        board_element.innerHTML += '<div id="cell-' + String((i*8) + c) + '" class="light_square" style="height:' + String(40 / this.boardsize) + 'vw; width:' + String(40 / this.boardsize) + 'vw; font-size:' + String(20 / this.boardsize) + 'vw;" onclick="Utility.Selection(' + String(i*8 + c) + ')"></div>';
+                        board_element.innerHTML += '<div id="cell-' + String((i*8) + c) + '" class="light_square" style="height:' + String(40 / this.boardsize) + 'vw; width:' + String(40 / this.boardsize) + 'vw; font-size:' + String(20 / this.boardsize) + 'vw;" onclick="Utility.Selection(' + String(i*8 + c) + ')"><img class="pieces" id="img-' + String((i*8) + c) + '"></div>';
                     }
                 }
             }
@@ -40,15 +40,49 @@ class Utils{
     Display_Board(){
         let locations:number[] = World.Get_Locations();
         let element;
+        let image_element;
+        let type:string;
 
         for(let c:number = 0; c < (this.boardsize * this.boardsize); c++){
-            element = document.getElementById('cell-' + String(c)) as HTMLOutputElement;
-            element.innerText = '';
+            image_element = document.getElementById('img-' + String(c)) as HTMLImageElement;
+            image_element.src = '';
+            image_element.style.display = 'none';
         }
 
-        for(let i:number = 0; i < locations.length; i++){
-            element = document.getElementById('cell-' + String(locations[i])) as HTMLOutputElement;
-            element.innerText = World.Get_Type(locations[i]);
+        for(let i:number = 0; i < World.Bishop_Pieces.length; i++){
+            image_element = document.getElementById('img-' + String(World.Bishop_Pieces[i].square)) as HTMLImageElement;
+            image_element.src = './pieces-basic-png/' + World.Bishop_Pieces[i].color + '-bishop.png';
+            image_element.style.display = 'block';
+        }
+
+        for(let i:number = 0; i < World.Knight_Pieces.length; i++){
+            image_element = document.getElementById('img-' + String(World.Knight_Pieces[i].square)) as HTMLImageElement;
+            image_element.src = './pieces-basic-png/' + World.Knight_Pieces[i].color + '-knight.png';
+            image_element.style.display = 'block';
+        }
+
+        for(let i:number = 0; i < World.Pawn_Pieces.length; i++){
+            image_element = document.getElementById('img-' + String(World.Pawn_Pieces[i].square)) as HTMLImageElement;
+            image_element.src = './pieces-basic-png/' + World.Pawn_Pieces[i].color + '-pawn.png';
+            image_element.style.display = 'block';
+        }
+
+        for(let i:number = 0; i < World.Rook_Pieces.length; i++){
+            image_element = document.getElementById('img-' + String(World.Rook_Pieces[i].square)) as HTMLImageElement;
+            image_element.src = './pieces-basic-png/' + World.Rook_Pieces[i].color + '-rook.png';
+            image_element.style.display = 'block';
+        }
+
+        for(let i:number = 0; i < World.King_Pieces.length; i++){
+            image_element = document.getElementById('img-' + String(World.King_Pieces[i].square)) as HTMLImageElement;
+            image_element.src = './pieces-basic-png/' + World.King_Pieces[i].color + '-king.png';
+            image_element.style.display = 'block';
+        }
+
+        for(let i:number = 0; i < World.Queen_Pieces.length; i++){
+            image_element = document.getElementById('img-' + String(World.Queen_Pieces[i].square)) as HTMLImageElement;
+            image_element.src = './pieces-basic-png/' + World.Queen_Pieces[i].color + '-queen.png';
+            image_element.style.display = 'block';
         }
     }
 
