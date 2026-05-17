@@ -10,36 +10,156 @@ class Global{
 
     Get_Locations():number[]{
         let output:number[] = [];
+        let index:number = 0;
 
-        for(let i:number = 0; i < this.num_pawns; i++){
-            output[i] = this.Pawn_Pieces[i].square;
+        for(let i:number = 0; i < this.Pawn_Pieces.length; i++){
+            output[index] = this.Pawn_Pieces[i].square;
+            index++;
         }
 
-        for(let i:number = this.num_pawns; i < (this.num_pawns + 4); i++){
-            output[i] = this.Rook_Pieces[i - this.num_pawns].square;
+        for(let i:number = 0; i < this.Rook_Pieces.length; i++){
+            output[index] = this.Rook_Pieces[i].square;
+            index++;
         }
 
-        for(let i:number = (this.num_pawns + 4); i < (this.num_pawns + 8); i++){
-            output[i] = this.Knight_Pieces[i - this.num_pawns - 4].square;
+        for(let i:number = 0; i < this.Knight_Pieces.length; i++){
+            output[index] = this.Knight_Pieces[i].square;
+            index++;
         }
 
-        for(let i:number = (this.num_pawns + 8); i < (this.num_pawns + 12); i++){
-            output[i] = this.Bishop_Pieces[i - this.num_pawns - 8].square;
+        for(let i:number = 0; i < this.Bishop_Pieces.length; i++){
+            output[index] = this.Bishop_Pieces[i].square;
+            index++;
         }
         
-        for(let i:number = (this.num_pawns + 12); i < (this.num_pawns + 14); i++){
-            output[i] = this.King_Pieces[i - this.num_pawns - 12].square;
+        for(let i:number = 0; i < this.King_Pieces.length; i++){
+            output[index] = this.King_Pieces[i].square;
+            index++;
         }
 
-        for(let i:number = (this.num_pawns + 14); i < (this.num_pawns + 16); i++){
-            output[i] = this.Queen_Pieces[i - this.num_pawns - 14].square;
+        for(let i:number = 0; i < this.Queen_Pieces.length; i++){
+            output[index] = this.Queen_Pieces[i].square;
+            index++;
         }
 
         return output;
     }
 
-    Remove_Piece(square:number):boolean{
-        return true;
+    Remove_Piece(square:number, color_to_be_removed:string):boolean{//just as a reminder when you move, you need to remove the opposing piece first and only then can you move
+        let output:boolean = false;
+
+        for(let i:number = 0; i < this.Pawn_Pieces.length; i++){
+            if(this.Pawn_Pieces[i].square == square && output == false && this.Pawn_Pieces[i].color == color_to_be_removed){
+                this.Pawn_Pieces.splice(i, 1);
+                output = true;
+            }
+        }
+
+        for(let i:number = 0; i < this.Rook_Pieces.length; i++){
+            if(this.Rook_Pieces[i].square == square && output == false && this.Rook_Pieces[i].color == color_to_be_removed){
+                this.Rook_Pieces.splice(i, 1);
+                output = true;
+            }
+        }
+
+        for(let i:number = 0; i < this.Knight_Pieces.length; i++){
+            if(this.Knight_Pieces[i].square == square && output == false && this.Knight_Pieces[i].color == color_to_be_removed){
+                this.Knight_Pieces.splice(i, 1);
+                output = true;
+            }
+        }
+
+        for(let i:number = 0; i < this.Bishop_Pieces.length; i++){
+            if(this.Bishop_Pieces[i].square == square && output == false && this.Bishop_Pieces[i].color == color_to_be_removed){
+                this.Bishop_Pieces.splice(i, 1);
+                output = true;
+            }
+        }
+
+        for(let i:number = 0; i < this.King_Pieces.length; i++){
+            if(this.King_Pieces[i].square == square && output == false && this.King_Pieces[i].color == color_to_be_removed){
+                this.King_Pieces.splice(i, 1);
+                output = true;
+            }
+        }
+
+        for(let i:number = 0; i < this.Queen_Pieces.length; i++){
+            if(this.Queen_Pieces[i].square == square && output == false && this.Queen_Pieces[i].color == color_to_be_removed){
+                this.Queen_Pieces.splice(i, 1);
+                output = true;
+            }
+        }
+
+        return output;
+    }
+
+    Get_Type(square:number):string{
+        let output:string = '';
+
+        for(let i:number = 0; i < this.Pawn_Pieces.length; i++){
+            if(this.Pawn_Pieces[i].square == square){
+                return 'P';
+            }
+        }
+
+        for(let i:number = 0; i < this.Rook_Pieces.length; i++){
+            if(this.Rook_Pieces[i].square == square){
+                return 'R';
+            }
+        }
+
+        for(let i:number = 0; i < this.Knight_Pieces.length; i++){
+            if(this.Knight_Pieces[i].square == square){
+                return 'N';
+            }
+        }
+
+        for(let i:number = 0; i < this.Bishop_Pieces.length; i++){
+            if(this.Bishop_Pieces[i].square == square){
+                return 'B';
+            }
+        }
+        
+        for(let i:number = 0; i < this.King_Pieces.length; i++){
+            if(this.King_Pieces[i].square == square){
+                return 'K';
+            }
+        }
+
+        for(let i:number = 0; i < this.Queen_Pieces.length; i++){
+            if(this.Queen_Pieces[i].square == square){
+                return 'Q';
+            }
+        }
+
+        return output;
+    }
+
+    Pawn_Promotion(piece:string, color:string, square:number){
+        let removed:boolean = false;
+
+        for(let i:number = 0; i < this.Pawn_Pieces.length; i++){
+            if(this.Pawn_Pieces[i].square == square){
+                this.Pawn_Pieces.splice(i, 1);
+                removed = true;
+                break
+            }
+        }
+        //wont break because it will be called after all are loaded thus it will see it
+        if(removed == false){
+            return;
+        }
+        else if(piece == 'Q'){
+            this.Queen_Pieces.push(new Queens(square, color))
+        }else if(piece == 'B'){
+            this.Bishop_Pieces.push(new Bishops(square, color))
+        }else if(piece == 'R'){
+            this.Rook_Pieces.push(new Rooks(square, color))
+        }else if(piece == 'N'){
+            this.Knight_Pieces.push(new Knights(square, color))
+        }else{
+            return;
+        }
     }
 }
 
@@ -63,9 +183,33 @@ abstract class Pieces{
     //the function is given a destination, it checks whether or not its valid(including taking) and then will output ots validity
     //then a different function will take that validity and either move or take a piece or not do anything of course
     abstract Movement(destination:number):boolean;
+
+    Do_Movement(destination:number):boolean{
+        let valid:boolean = this.Movement(destination);
+        let output:boolean = false;
+
+        if(valid){
+            let color_to_be_removed:string;
+
+            if(this.color == 'white'){
+                color_to_be_removed = 'black';
+            }else{
+                color_to_be_removed = 'white';
+            }
+
+            World.Remove_Piece(destination, color_to_be_removed);
+
+            this.square = destination;
+
+            return output
+        }else{
+            return output
+        }
+    }
 }
 
 class Pawns extends Pieces{
+    //change IsQueen functionality(completely delete it and create a better system)
     Is_Queen:boolean;
     First_Move:boolean;
     EnPassant:boolean;
@@ -83,172 +227,8 @@ class Pawns extends Pieces{
         let column:number = this.square - (Math.floor(this.square / 8) * 8);
         let output:boolean = false;
 
-        if(this.Is_Queen){
-            while(check_position >= 0 && temp == true){
-                for(let i:number = 0; i < piece_positions.length; i++){
-                    if(piece_positions[i] == check_position){
-                        temp = false;
-                    }
-                }
-
-                if(temp){
-                    possible_moves[index] = check_position;
-                    check_position = check_position - 8;
-                    index++;
-                }else{
-                    possible_moves[index] = check_position;
-                    index++;
-                }
-            }
-
-            temp = true;
-            check_position = this.square + 8;
-
-            while(check_position <= 63 && temp == true){
-                for(let i:number = 0; i < piece_positions.length; i++){
-                    if(piece_positions[i] == check_position){
-                        temp = false;
-                    }
-                }
-
-                if(temp){
-                    possible_moves[index] = check_position;
-                    check_position = check_position + 8;
-                    index++;
-                }else{
-                    possible_moves[index] = check_position;
-                    index++;
-                }
-            }
-
-            temp = true;
-            check_position = this.square - 1;
-
-            while(check_position >= (row * 8)  && temp == true){
-                for(let i:number = 0; i < piece_positions.length; i++){
-                    if(piece_positions[i] == check_position){
-                        temp = false;
-                    }
-                }
-
-                if(temp){
-                    possible_moves[index] = check_position;
-                    check_position = check_position - 1;
-                    index++;
-                }else{
-                    possible_moves[index] = check_position;
-                    index++;
-                }
-            }
-
-            temp = true;
-            check_position = this.square + 1;
-
-            while(check_position <= ((row * 8 + 7)) && temp == true){
-                for(let i:number = 0; i < piece_positions.length; i++){
-                    if(piece_positions[i] == check_position){
-                        temp = false;
-                    }
-                }
-
-                if(temp){
-                    possible_moves[index] = check_position;
-                    check_position = check_position + 1;
-                    index++;
-                }else{
-                    possible_moves[index] = check_position;
-                    index++;
-                }
-            }
-
-            check_position = this.square - 8 - 1;
-            temp = true;
-
-            while(check_position >= 0 && temp == true && (check_position - (Math.floor(check_position / 8) * 8)) < column){
-                for(let i:number = 0; i < piece_positions.length; i++){
-                    if(piece_positions[i] == check_position){
-                        temp = false;
-                    }
-                }
-
-                if(temp){
-                    possible_moves[index] = check_position;
-                    check_position = check_position - 8 - 1;
-                    index++;
-                }else{
-                    possible_moves[index] = check_position;
-                    index++;
-                }
-            }
-
-            temp = true;
-            check_position = this.square - 8 + 1;
-
-            while(check_position >= 0 && temp == true && (check_position - (Math.floor(check_position / 8) * 8)) > column){
-                for(let i:number = 0; i < piece_positions.length; i++){
-                    if(piece_positions[i] == check_position){
-                        temp = false;
-                    }
-                }
-
-                if(temp){
-                    possible_moves[index] = check_position;
-                    check_position = check_position - 8 + 1;
-                    index++;
-                }else{
-                    possible_moves[index] = check_position;
-                    index++;
-                }
-            }
-
-            temp = true;
-            check_position = this.square + 8 - 1;
-
-            while(check_position <= 63  && temp == true && (check_position - (Math.floor(check_position / 8) * 8)) < column){
-                for(let i:number = 0; i < piece_positions.length; i++ ){
-                    if(piece_positions[i] == check_position){
-                        temp = false;
-                    }
-                }
-
-                if(temp){
-                    possible_moves[index] = check_position;
-                    check_position = check_position + 8 - 1;
-                    index++;
-                }else{
-                    possible_moves[index] = check_position;
-                    index++;
-                }
-            }
-
-            temp = true;
-            check_position = this.square + 8 + 1;
-
-            while(check_position <= 63 && temp == true && (check_position - (Math.floor(check_position / 8) * 8)) < column){
-                for(let i:number = 0; i < piece_positions.length; i++){
-                    if(piece_positions[i] == check_position){
-                        temp = false;
-                    }
-                }
-
-                if(temp){
-                    possible_moves[index] = check_position;
-                    check_position = check_position + 8 + 1;
-                    index++;
-                }else{
-                    possible_moves[index] = check_position;
-                    index++;
-                }
-            }
-
-            for(let i:number = 0; i < possible_moves.length; i++){
-                if(possible_moves[i] == destination){
-                    output = true;
-                }
-            }
-
-            return output;
-        }else if(this.First_Move){
+        
+        if(this.First_Move){
             if(this.color == 'white'){
                 check_moves = [this.square - 8, this.square - 16];
                 check_take_moves = [this.square - 8 - 1, this.square - 8 + 1];
@@ -303,7 +283,7 @@ class Pawns extends Pieces{
                 check_take_moves = [this.square + 8 - 1, this.square + 8 + 1];
             }
 
-            possible_moves = [this.EnPassant_Piece_Square];
+            possible_moves = [this.EnPassant_Piece_Square - 8];
             index++;
 
             for(let i:number = 0; i < check_moves.length; i++){
@@ -389,6 +369,62 @@ class Pawns extends Pieces{
             }
 
             return output;
+        }
+    }
+
+    Promote(piece:string){
+        World.Pawn_Promotion(piece, this.color, this.square);
+    }
+
+    Do_Pawn_Movement(destination:number, EnPassant:boolean){
+        let valid:boolean = this.Movement(destination);
+        let output:boolean = false;
+        let enpassant_destination = destination
+
+        
+
+        if(valid == true && destination == this.EnPassant_Piece_Square){
+            let color_to_be_removed:string;
+
+            if(this.color == 'white'){
+                enpassant_destination = enpassant_destination - 8;
+                color_to_be_removed = 'black';
+            }else{
+                enpassant_destination = enpassant_destination + 8;
+                color_to_be_removed = 'white';
+            }
+
+            World.Remove_Piece(destination, color_to_be_removed);
+
+            this.square = enpassant_destination;
+
+            return output
+        }
+        else if(valid){
+            //Pawn promotion
+            if(Math.floor(destination / 8) == 0 || Math.floor(destination / 8) == 7){
+                let preference_element = document.getElementById('promote-preference') as HTMLSelectElement;
+                let value:string = preference_element.value;
+
+                this.square = destination;
+                this.Promote(value);
+            }else{
+                let color_to_be_removed:string;
+
+                if(this.color == 'white'){
+                    color_to_be_removed = 'black';
+                }else{
+                    color_to_be_removed = 'white';
+                }
+
+                World.Remove_Piece(destination, color_to_be_removed);
+
+                this.square = destination;
+
+                return output
+            }
+        }else{
+            return output
         }
     }
 
@@ -877,7 +913,7 @@ function Create_Pieces():void{
         if(i < 8){
             World.Pawn_Pieces[i] = new Pawns(6*8 + i, 'white');
         }else{
-            World.Pawn_Pieces[i] = new Pawns(1*8 + i, 'black');
+            World.Pawn_Pieces[i] = new Pawns(0*8 + i, 'black');
         }
     }
     //creating all rooks
@@ -896,7 +932,7 @@ function Create_Pieces():void{
     World.Bishop_Pieces[0] = new Bishops(58, 'white');
     World.Bishop_Pieces[1] = new Bishops(61, 'white');
     World.Bishop_Pieces[2] = new Bishops(2, 'black');
-    World.Bishop_Pieces[3] = new Bishops(7, 'black');
+    World.Bishop_Pieces[3] = new Bishops(5, 'black');
 
     //creating all kings
     World.King_Pieces[0] = new Kings(60, 'white');
@@ -908,3 +944,9 @@ function Create_Pieces():void{
 } 
 
 Create_Pieces();
+
+//TO-DO LIST:
+//-Moving Pieces through the GUI - test
+//-Piece Display Update(partially)
+//-force gameloop(white, black, white, black, ...., and End of game upon a King's death)
+//-Actual Pieces rather than stand-ins(letters)

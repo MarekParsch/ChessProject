@@ -1,7 +1,15 @@
 .dark_square{
+    display: flex;
     background-color: rgb(87, 28, 28);
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .light_square{
+    display: flex;
     background-color: rgb(255, 251, 227);
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 }

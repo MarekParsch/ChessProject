@@ -8,7 +8,14 @@
     </head>
 
     <body>
-        <button onclick="Utility.Generate_Board()">Start Game</button>
+        <button onclick="Utility.Generate_Board(); Utility.Display_Board()">Start Game</button>
+        <button onclick="Utility.Display_Board()">Update Board</button>
+        <select id="promote-preference">
+            <option value="N">Knight</option>
+            <option value="B">Bishop</option>
+            <option value="R">Rook</option>
+            <option value="Q">Queen</option>
+        </select>
 
         <section id="chessboard">
         </section>
