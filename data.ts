@@ -7,6 +7,24 @@ class Global{
     Queen_Pieces: Queens[] = [];
 
     num_pawns:number = 16;
+    move:string = 'white';
+
+    Change_Play(){
+        if(this.King_Pieces.length != 2){
+            this.move = 'none';
+            
+            let element = document.getElementById('status') as HTMLOutputElement;
+            element.innerText = 'Game ended';
+
+            return;
+        }
+
+        if(this.move == 'white'){
+            this.move = 'black';
+        }else{
+            this.move = 'white';
+        }
+    }
 
     Get_Locations():number[]{
         let output:number[] = [];
@@ -161,6 +179,33 @@ class Global{
             return;
         }
     }
+
+    Castle(color:string, destination:number, square:number, rook_square:number):boolean{
+        let output:boolean = false;
+
+        for(let i:number = 0; i < this.Rook_Pieces.length; i++){
+            if(this.Rook_Pieces[i].square == rook_square && this.Rook_Pieces[i].color == color){
+                for(let c:number = 0; c < this.King_Pieces.length; c++){
+                    if(this.King_Pieces[c].color == color){
+                        if(destination > square){
+                            this.Rook_Pieces[i].square = destination - 1;
+                        }else{
+                            this.Rook_Pieces[i].square = destination + 1;
+                        }
+
+                        this.King_Pieces[c].square = destination;
+                        output = true;
+
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+        
+
+        return output;
+    }
 }
 
 let World = new Global();
@@ -177,7 +222,11 @@ abstract class Pieces{
     }
 
     Change_State(){
-        this.highlight = true;
+        if(this.highlight){
+            this.highlight = false;
+        }else{
+            this.highlight = true;
+        }
     }
 
     //the function is given a destination, it checks whether or not its valid(including taking) and then will output ots validity
@@ -187,8 +236,9 @@ abstract class Pieces{
     Do_Movement(destination:number):boolean{
         let valid:boolean = this.Movement(destination);
         let output:boolean = false;
+        let check:boolean = this.color == World.move;
 
-        if(valid){
+        if(valid && check){
             let color_to_be_removed:string;
 
             if(this.color == 'white'){
@@ -201,19 +251,60 @@ abstract class Pieces{
 
             this.square = destination;
 
+            World.Change_Play();
+            output = true;
+
             return output
         }else{
             return output
         }
     }
+
+    Valid_Move_Same_Color_Check(destination:number):boolean{
+        for(let i:number = 0; i < World.Pawn_Pieces.length; i++){
+            if(World.Pawn_Pieces[i].square == destination && World.Pawn_Pieces[i].color == this.color){
+                return false;
+            }
+        }
+
+        for(let i:number = 0; i <  World.Rook_Pieces.length; i++){
+            if(World.Rook_Pieces[i].square == destination  && World.Rook_Pieces[i].color == this.color){
+                return false;
+            }
+        }
+
+        for(let i:number = 0; i <  World.Knight_Pieces.length; i++){
+            if(World.Knight_Pieces[i].square == destination && World.Knight_Pieces[i].color == this.color){
+                return false;
+            }
+        }
+
+        for(let i:number = 0; i <  World.Bishop_Pieces.length; i++){
+            if(World.Bishop_Pieces[i].square == destination  && World.Knight_Pieces[i].color == this.color){
+                return false;
+            }
+        }
+            
+        for(let i:number = 0; i < World.King_Pieces.length; i++){
+            if(World.King_Pieces[i].square == destination && World.King_Pieces[i].color == this.color){
+                return false;
+            }
+        }
+
+        for(let i:number = 0; i < World.Queen_Pieces.length; i++){
+            if(World.Queen_Pieces[i].square == destination && World.Queen_Pieces[i].color == this.color){
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
 
 class Pawns extends Pieces{
-    //change IsQueen functionality(completely delete it and create a better system)
-    Is_Queen:boolean;
     First_Move:boolean;
     EnPassant:boolean;
-    EnPassant_Piece_Square:number = -1000;
+    EnPassant_Piece_Square:number = -1;
 
     Movement(destination:number):boolean {
         let piece_positions:number[] = World.Get_Locations();
@@ -226,6 +317,7 @@ class Pawns extends Pieces{
         let row:number = Math.floor(this.square / 8);
         let column:number = this.square - (Math.floor(this.square / 8) * 8);
         let output:boolean = false;
+        let Enpassant_squares:number[] = [destination + 1, destination - 1]
 
         
         if(this.First_Move){
@@ -262,7 +354,7 @@ class Pawns extends Pieces{
                 }
 
                 if(temp){
-                    possible_moves[index] = check_moves[i];
+                    possible_moves[index] = check_take_moves[i];
                     index++;
                 }
             }
@@ -273,18 +365,42 @@ class Pawns extends Pieces{
                 }
             }
 
+            if(output){
+                let color_to_be_removed:string;
+
+                if(this.color == 'white'){
+                    color_to_be_removed = 'black';
+                }else{
+                    color_to_be_removed = 'white';
+                }
+
+                for(let j:number = 0; j < Enpassant_squares.length; j++){
+                    for(let i:number = 0; i < World.Pawn_Pieces.length; i++){
+                        if(World.Pawn_Pieces[i].color == color_to_be_removed && World.Pawn_Pieces[i].square == Enpassant_squares[j]){
+                            World.Pawn_Pieces[i].EnPassant = true;
+                            World.Pawn_Pieces[i].EnPassant_Piece_Square = destination;
+                            break;
+                        }
+                    }
+                }
+
+                this.First_Move = false;
+                output = this.Valid_Move_Same_Color_Check(destination);
+            }
+
             return output;
         }else if(this.EnPassant){ // on enpassant the next function will make the move and will automatically turn off or on enpassant
             if(this.color == 'white'){
                 check_moves = [this.square - 8];
                 check_take_moves = [this.square - 8 - 1, this.square - 8 + 1];
+                possible_moves = [this.EnPassant_Piece_Square - 8];
+                index++;
             }else{
                 check_moves = [this.square + 8];
                 check_take_moves = [this.square + 8 - 1, this.square + 8 + 1];
+                possible_moves = [this.EnPassant_Piece_Square + 8];
+                index++;
             }
-
-            possible_moves = [this.EnPassant_Piece_Square - 8];
-            index++;
 
             for(let i:number = 0; i < check_moves.length; i++){
                 temp = true;
@@ -311,7 +427,7 @@ class Pawns extends Pieces{
                 }
 
                 if(temp){
-                    possible_moves[index] = check_moves[i];
+                    possible_moves[index] = check_take_moves[i];
                     index++;
                 }
             }
@@ -320,6 +436,10 @@ class Pawns extends Pieces{
                 if(possible_moves[i] == destination){
                     output = true;
                 }
+            }
+
+            if(output){
+                output = this.Valid_Move_Same_Color_Check(destination);
             }
 
             return output;
@@ -357,7 +477,7 @@ class Pawns extends Pieces{
                 }
 
                 if(temp){
-                    possible_moves[index] = check_moves[i];
+                    possible_moves[index] = check_take_moves[i];
                     index++;
                 }
             }
@@ -368,6 +488,10 @@ class Pawns extends Pieces{
                 }
             }
 
+            if(output){
+                output = this.Valid_Move_Same_Color_Check(destination);
+            }
+
             return output;
         }
     }
@@ -376,38 +500,50 @@ class Pawns extends Pieces{
         World.Pawn_Promotion(piece, this.color, this.square);
     }
 
-    Do_Pawn_Movement(destination:number, EnPassant:boolean){
+    Do_Pawn_Movement(destination:number):boolean{
         let valid:boolean = this.Movement(destination);
-        let output:boolean = false;
-        let enpassant_destination = destination
+        let check:boolean = this.color == World.move;
 
-        
-
-        if(valid == true && destination == this.EnPassant_Piece_Square){
+        if(valid == true && this.EnPassant == true && Math.abs(destination - this.EnPassant_Piece_Square) == 8 && check == true){
             let color_to_be_removed:string;
 
             if(this.color == 'white'){
-                enpassant_destination = enpassant_destination - 8;
                 color_to_be_removed = 'black';
             }else{
-                enpassant_destination = enpassant_destination + 8;
                 color_to_be_removed = 'white';
             }
 
-            World.Remove_Piece(destination, color_to_be_removed);
+            World.Remove_Piece(this.EnPassant_Piece_Square, color_to_be_removed);
 
-            this.square = enpassant_destination;
+            this.square = destination;
 
-            return output
+            this.EnPassant_Piece_Square = -1;
+            this.EnPassant = false;
+
+            World.Change_Play();
+
+            return true;
         }
-        else if(valid){
+        else if(valid && check){
             //Pawn promotion
             if(Math.floor(destination / 8) == 0 || Math.floor(destination / 8) == 7){
                 let preference_element = document.getElementById('promote-preference') as HTMLSelectElement;
                 let value:string = preference_element.value;
+                let color_to_be_removed:string;
+
+                if(this.color == 'white'){
+                    color_to_be_removed = 'black';
+                }else{
+                    color_to_be_removed = 'white';
+                }
+
+                World.Remove_Piece(destination, color_to_be_removed);
 
                 this.square = destination;
                 this.Promote(value);
+
+                World.Change_Play();
+                return true;
             }else{
                 let color_to_be_removed:string;
 
@@ -421,16 +557,16 @@ class Pawns extends Pieces{
 
                 this.square = destination;
 
-                return output
+                World.Change_Play();
+                return true;
             }
         }else{
-            return output
+            return false;
         }
     }
 
     constructor(a:number, b:string){
         super(a, b);
-        this.Is_Queen = false;
         this.First_Move = true;
         this.EnPassant = false;
     }
@@ -529,6 +665,10 @@ class Rooks extends Pieces{
             }
         }
 
+        if(output){
+            output = this.Valid_Move_Same_Color_Check(destination);
+        }
+
         return output;
     }
 
@@ -567,6 +707,10 @@ class Knights extends Pieces{
             if(possible_moves[i] == destination){
                 output = true;
             }
+        }
+
+        if(output){
+            output = this.Valid_Move_Same_Color_Check(destination);
         }
 
         return output;
@@ -647,7 +791,7 @@ class Bishops extends Pieces{
         temp = true;
         check_position = this.square + 8 + 1;
 
-        while(check_position <= 63 && temp == true && (check_position - (Math.floor(check_position / 8) * 8)) < column){
+        while(check_position <= 63 && temp == true && (check_position - (Math.floor(check_position / 8) * 8)) > column){
             for(let i:number = 0; i < piece_positions.length; i++){
                 if(piece_positions[i] == check_position){
                     temp = false;
@@ -670,6 +814,10 @@ class Bishops extends Pieces{
             }
         }
 
+        if(output){
+            output = this.Valid_Move_Same_Color_Check(destination);
+        }
+
         return output;
     }
 
@@ -679,6 +827,8 @@ class Bishops extends Pieces{
 }
 
 class Kings extends Pieces{
+    castled:boolean;
+
     Movement(destination:number):boolean {
         let check_moves:number[] = [this.square - 8, this.square + 8, this.square - 1, this.square + 1, this.square - 8 - 1, this.square - 8 + 1, this.square + 8 - 1, this.square + 8 + 1];
         let possible_moves:number[] = [];
@@ -690,7 +840,7 @@ class Kings extends Pieces{
         for(let i:number = 0; i < check_moves.length; i++){
             temp = true;
 
-            if((check_moves[i] - (Math.floor(check_moves[i] / 8) * 8)) != (column - 1) && (check_moves[i] - (Math.floor(check_moves[i] / 8) * 8)) != (column + 1)){
+            if(Math.abs((check_moves[i] - (Math.floor(check_moves[i] / 8) * 8) - column)) > 1){
                 temp = false;
             }
 
@@ -704,17 +854,100 @@ class Kings extends Pieces{
             }
         }
 
+        if(this.castled == false){
+            possible_moves.push(this.square - 2);
+            possible_moves.push(this.square + 2);
+        }
+
         for(let i:number = 0; i < possible_moves.length; i++){
             if(possible_moves[i] == destination){
                 output = true;
             }
         }
 
+        if(output){
+            output = this.Valid_Move_Same_Color_Check(destination);
+        }
+
         return output;
+    }
+
+    Do_King_Movement(destination:number):boolean{
+        let valid:boolean = this.Movement(destination);
+        let output:boolean = false;
+        let check:boolean = this.color == World.move;
+        let castle_check = destination == (this.square - 2) || destination == (this.square + 2);
+
+        if(valid && check && castle_check == false){
+            let color_to_be_removed:string;
+
+            if(this.color == 'white'){
+                color_to_be_removed = 'black';
+            }else{
+                color_to_be_removed = 'white';
+            }
+
+            World.Remove_Piece(destination, color_to_be_removed);
+
+            this.square = destination;
+            this.castled = true;
+
+            World.Change_Play();
+            output = true;
+
+            return output;
+        }else if(valid && check && castle_check){
+            let locations:number[] = World.Get_Locations();
+            let check_squares:number[];
+            let rook_square:number;
+            let rook_check:boolean;
+            let empty_check:boolean = true;
+
+            if(destination == (this.square - 2)){
+                check_squares = [this.square - 1, this.square - 2, this.square - 3];
+                rook_square = this.square - 4;
+            }
+            else{
+                check_squares = [this.square + 1, this.square + 2];
+                rook_square = this.square + 3;                
+            }
+
+            rook_check = World.Get_Type(rook_square) == 'R';
+
+            if(!rook_check){
+                return output;    
+            }
+
+            for(let i:number = 0; i < check_squares.length; i++){
+                for(let c = 0; c < locations.length; c++){
+                    if(check_squares[i] == locations[c]){
+                        empty_check = false;
+                    }
+                }
+            }
+
+            if(!empty_check){
+                return output;
+            }
+
+            let Castle_result = World.Castle(this.color, destination, this.square, rook_square);
+            console.log(Castle_result);
+
+            if(Castle_result){
+                output = true;
+                this.castled = true;
+                World.Change_Play();
+            }
+
+            return output;
+        }else{
+            return output;
+        }
     }
 
     constructor(a:number, b:string){
         super(a, b);
+        this.castled = false;
     }
 }
 
@@ -869,7 +1102,7 @@ class Queens extends Pieces{
         temp = true;
         check_position = this.square + 8 + 1;
 
-        while(check_position <= 63 && temp == true && (check_position - (Math.floor(check_position / 8) * 8)) < column){
+        while(check_position <= 63 && temp == true && (check_position - (Math.floor(check_position / 8) * 8)) > column){
             for(let i:number = 0; i < piece_positions.length; i++){
                 if(piece_positions[i] == check_position){
                     temp = false;
@@ -890,6 +1123,10 @@ class Queens extends Pieces{
             if(possible_moves[i] == destination){
                 output = true;
             }
+        }
+
+        if(output){
+            output = this.Valid_Move_Same_Color_Check(destination);
         }
 
         return output;
@@ -943,10 +1180,7 @@ function Create_Pieces():void{
     World.Queen_Pieces[1] = new Queens(3, 'black');
 } 
 
-Create_Pieces();
-
 //TO-DO LIST:
-//-Moving Pieces through the GUI - test
-//-Piece Display Update(partially)
-//-force gameloop(white, black, white, black, ...., and End of game upon a King's death)
 //-Actual Pieces rather than stand-ins(letters)
+//-Actual Frontend
+//-Some rudementary chess bot(only if I feel like it is unnnecessary)

@@ -9,6 +9,7 @@ class Utils{
 
     Generate_Board(){
         let board_element = document.getElementById('chessboard') as HTMLOutputElement;
+        Create_Pieces();
 
         board_element.innerHTML = '';
         board_element.style.display = 'grid';
@@ -31,6 +32,9 @@ class Utils{
                 }
             }
         }
+
+        let element = document.getElementById('status') as HTMLOutputElement;
+        element.innerText = 'Game started';
     }
 
     Display_Board(){
@@ -69,49 +73,48 @@ class Utils{
 
             if(type == 'Q'){
                 for(let i:number = 0; i < World.Queen_Pieces.length; i++){
-                    if(square == World.Queen_Pieces[i].square){
-                        World.Queen_Pieces[i].Do_Movement(this.selected);
+                    if(this.selected == World.Queen_Pieces[i].square){
+                        World.Queen_Pieces[i].Do_Movement(square);
                         this.selected = -1;
                         return;
                     }
                 }
             }else if(type == 'K'){
                 for(let i:number = 0; i < World.King_Pieces.length; i++){
-                    if(square == World.King_Pieces[i].square){
-                        World.King_Pieces[i].Do_Movement(this.selected);
+                    if(this.selected == World.King_Pieces[i].square){
+                        World.King_Pieces[i].Do_King_Movement(square);
                         this.selected = -1;
                         return;
                     }
                 }
             }else if(type == 'P'){
                 for(let i:number = 0; i < World.Pawn_Pieces.length; i++){
-                    if(square == World.Pawn_Pieces[i].square){
-                        World.Pawn_Pieces[i].Do_Movement(this.selected);
+                    if(this.selected == World.Pawn_Pieces[i].square){
+                        World.Pawn_Pieces[i].Do_Pawn_Movement(square);
                         this.selected = -1;
                         return;
                     }
                 }
             }else if(type == 'R'){
                 for(let i:number = 0; i < World.Rook_Pieces.length; i++){
-                    if(square == World.Rook_Pieces[i].square){
-                        World.Rook_Pieces[i].Do_Movement(this.selected);
+                    if(this.selected == World.Rook_Pieces[i].square){
+                        World.Rook_Pieces[i].Do_Movement(square);
                         this.selected = -1;
                         return;
                     }
                 }
             }else if(type == 'B'){
                 for(let i:number = 0; i < World.Bishop_Pieces.length; i++){
-                    if(square == World.Bishop_Pieces[i].square){
-                        World.Bishop_Pieces[i].Do_Movement(this.selected);
+                    if(this.selected == World.Bishop_Pieces[i].square){
+                        World.Bishop_Pieces[i].Do_Movement(square);
                         this.selected = -1;
                         return;
                     }
                 }
             }else if(type == 'N'){
-                console.log('Knight');
                 for(let i:number = 0; i < World.Knight_Pieces.length; i++){
-                    if(square == World.Knight_Pieces[i].square){
-                        World.Knight_Pieces[i].Do_Movement(this.selected);
+                    if(this.selected == World.Knight_Pieces[i].square){
+                        World.Knight_Pieces[i].Do_Movement(square);
                         this.selected = -1;
                         return;
                     }
