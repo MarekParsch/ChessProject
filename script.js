@@ -32,6 +32,7 @@ class Utils {
                 }
             }
         }
+        World.move = 'white';
         let element = document.getElementById('status');
         element.innerText = 'Game started';
     }
@@ -44,36 +45,62 @@ class Utils {
             image_element = document.getElementById('img-' + String(c));
             image_element.src = '';
             image_element.style.display = 'none';
+            element = document.getElementById('cell-' + String(c));
+            element.style.boxShadow = 'none';
         }
         for (let i = 0; i < World.Bishop_Pieces.length; i++) {
             image_element = document.getElementById('img-' + String(World.Bishop_Pieces[i].square));
             image_element.src = './pieces-basic-png/' + World.Bishop_Pieces[i].color + '-bishop.png';
             image_element.style.display = 'block';
+            if (World.Bishop_Pieces[i].highlight) {
+                element = document.getElementById('cell-' + String(World.Bishop_Pieces[i].square));
+                element.style.boxShadow = 'inset 0px 0px 0px 2px red';
+            }
         }
         for (let i = 0; i < World.Knight_Pieces.length; i++) {
             image_element = document.getElementById('img-' + String(World.Knight_Pieces[i].square));
             image_element.src = './pieces-basic-png/' + World.Knight_Pieces[i].color + '-knight.png';
             image_element.style.display = 'block';
+            if (World.Knight_Pieces[i].highlight) {
+                element = document.getElementById('cell-' + String(World.Knight_Pieces[i].square));
+                element.style.boxShadow = 'inset 0px 0px 0px 2px red';
+            }
         }
         for (let i = 0; i < World.Pawn_Pieces.length; i++) {
             image_element = document.getElementById('img-' + String(World.Pawn_Pieces[i].square));
             image_element.src = './pieces-basic-png/' + World.Pawn_Pieces[i].color + '-pawn.png';
             image_element.style.display = 'block';
+            if (World.Pawn_Pieces[i].highlight) {
+                element = document.getElementById('cell-' + String(World.Pawn_Pieces[i].square));
+                element.style.boxShadow = 'inset 0px 0px 0px 2px red';
+            }
         }
         for (let i = 0; i < World.Rook_Pieces.length; i++) {
             image_element = document.getElementById('img-' + String(World.Rook_Pieces[i].square));
             image_element.src = './pieces-basic-png/' + World.Rook_Pieces[i].color + '-rook.png';
             image_element.style.display = 'block';
+            if (World.Rook_Pieces[i].highlight) {
+                element = document.getElementById('cell-' + String(World.Rook_Pieces[i].square));
+                element.style.boxShadow = 'inset 0px 0px 0px 2px red';
+            }
         }
         for (let i = 0; i < World.King_Pieces.length; i++) {
             image_element = document.getElementById('img-' + String(World.King_Pieces[i].square));
             image_element.src = './pieces-basic-png/' + World.King_Pieces[i].color + '-king.png';
             image_element.style.display = 'block';
+            if (World.King_Pieces[i].highlight) {
+                element = document.getElementById('cell-' + String(World.King_Pieces[i].square));
+                element.style.boxShadow = 'inset 0px 0px 0px 2px red';
+            }
         }
         for (let i = 0; i < World.Queen_Pieces.length; i++) {
             image_element = document.getElementById('img-' + String(World.Queen_Pieces[i].square));
             image_element.src = './pieces-basic-png/' + World.Queen_Pieces[i].color + '-queen.png';
             image_element.style.display = 'block';
+            if (World.Queen_Pieces[i].highlight) {
+                element = document.getElementById('cell-' + String(World.Queen_Pieces[i].square));
+                element.style.boxShadow = 'inset 0px 0px 0px 2px red';
+            }
         }
     }
     Selection(square) {
@@ -85,6 +112,54 @@ class Utils {
                 return;
             }
             this.selected = square;
+            if (type == 'Q') {
+                for (let i = 0; i < World.Queen_Pieces.length; i++) {
+                    if (this.selected == World.Queen_Pieces[i].square) {
+                        World.Queen_Pieces[i].Change_State(true);
+                        return;
+                    }
+                }
+            }
+            else if (type == 'K') {
+                for (let i = 0; i < World.King_Pieces.length; i++) {
+                    if (this.selected == World.King_Pieces[i].square) {
+                        World.King_Pieces[i].Change_State(true);
+                        return;
+                    }
+                }
+            }
+            else if (type == 'P') {
+                for (let i = 0; i < World.Pawn_Pieces.length; i++) {
+                    if (this.selected == World.Pawn_Pieces[i].square) {
+                        World.Pawn_Pieces[i].Change_State(true);
+                        return;
+                    }
+                }
+            }
+            else if (type == 'R') {
+                for (let i = 0; i < World.Rook_Pieces.length; i++) {
+                    if (this.selected == World.Rook_Pieces[i].square) {
+                        World.Rook_Pieces[i].Change_State(true);
+                        return;
+                    }
+                }
+            }
+            else if (type == 'B') {
+                for (let i = 0; i < World.Bishop_Pieces.length; i++) {
+                    if (this.selected == World.Bishop_Pieces[i].square) {
+                        World.Bishop_Pieces[i].Change_State(true);
+                        return;
+                    }
+                }
+            }
+            else if (type == 'N') {
+                for (let i = 0; i < World.Knight_Pieces.length; i++) {
+                    if (this.selected == World.Knight_Pieces[i].square) {
+                        World.Knight_Pieces[i].Change_State(true);
+                        return;
+                    }
+                }
+            }
         }
         else {
             type = World.Get_Type(this.selected);
@@ -95,6 +170,7 @@ class Utils {
                 for (let i = 0; i < World.Queen_Pieces.length; i++) {
                     if (this.selected == World.Queen_Pieces[i].square) {
                         World.Queen_Pieces[i].Do_Movement(square);
+                        World.Queen_Pieces[i].Change_State(false);
                         this.selected = -1;
                         return;
                     }
@@ -104,6 +180,7 @@ class Utils {
                 for (let i = 0; i < World.King_Pieces.length; i++) {
                     if (this.selected == World.King_Pieces[i].square) {
                         World.King_Pieces[i].Do_King_Movement(square);
+                        World.King_Pieces[i].Change_State(false);
                         this.selected = -1;
                         return;
                     }
@@ -113,6 +190,7 @@ class Utils {
                 for (let i = 0; i < World.Pawn_Pieces.length; i++) {
                     if (this.selected == World.Pawn_Pieces[i].square) {
                         World.Pawn_Pieces[i].Do_Pawn_Movement(square);
+                        World.Pawn_Pieces[i].Change_State(false);
                         this.selected = -1;
                         return;
                     }
@@ -122,6 +200,7 @@ class Utils {
                 for (let i = 0; i < World.Rook_Pieces.length; i++) {
                     if (this.selected == World.Rook_Pieces[i].square) {
                         World.Rook_Pieces[i].Do_Movement(square);
+                        World.Rook_Pieces[i].Change_State(false);
                         this.selected = -1;
                         return;
                     }
@@ -131,6 +210,7 @@ class Utils {
                 for (let i = 0; i < World.Bishop_Pieces.length; i++) {
                     if (this.selected == World.Bishop_Pieces[i].square) {
                         World.Bishop_Pieces[i].Do_Movement(square);
+                        World.Bishop_Pieces[i].Change_State(false);
                         this.selected = -1;
                         return;
                     }
@@ -140,6 +220,7 @@ class Utils {
                 for (let i = 0; i < World.Knight_Pieces.length; i++) {
                     if (this.selected == World.Knight_Pieces[i].square) {
                         World.Knight_Pieces[i].Do_Movement(square);
+                        World.Knight_Pieces[i].Change_State(false);
                         this.selected = -1;
                         return;
                     }

@@ -187,13 +187,8 @@ class Pieces {
         this.color = b;
         this.highlight = false;
     }
-    Change_State() {
-        if (this.highlight) {
-            this.highlight = false;
-        }
-        else {
-            this.highlight = true;
-        }
+    Change_State(state) {
+        this.highlight = state;
     }
     Do_Movement(destination) {
         let valid = this.Movement(destination);
@@ -1008,7 +1003,3 @@ function Create_Pieces() {
     World.Queen_Pieces[0] = new Queens(59, 'white');
     World.Queen_Pieces[1] = new Queens(3, 'black');
 }
-//TO-DO LIST:
-//-Actual Pieces rather than stand-ins(letters)
-//-Actual Frontend
-//-Some rudementary chess bot(only if I feel like it is unnnecessary)

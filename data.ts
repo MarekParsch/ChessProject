@@ -221,12 +221,8 @@ abstract class Pieces{
         this.highlight = false;
     }
 
-    Change_State(){
-        if(this.highlight){
-            this.highlight = false;
-        }else{
-            this.highlight = true;
-        }
+    Change_State(state:boolean){
+        this.highlight = state;
     }
 
     //the function is given a destination, it checks whether or not its valid(including taking) and then will output ots validity
@@ -1179,8 +1175,3 @@ function Create_Pieces():void{
     World.Queen_Pieces[0] = new Queens(59, 'white');
     World.Queen_Pieces[1] = new Queens(3, 'black');
 } 
-
-//TO-DO LIST:
-//-Actual Pieces rather than stand-ins(letters)
-//-Actual Frontend
-//-Some rudementary chess bot(only if I feel like it is unnnecessary)

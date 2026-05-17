@@ -1,3 +1,14 @@
+body{
+    background-image: './background-image.png';
+    background-size:cover;
+}
+
+#main-card{
+    margin-left: 30vw;
+    margin-right: 30vw;
+    background-color: white;
+}
+
 .dark_square{
     display: flex;
     background-color: rgb(87, 28, 28);
@@ -8,8 +19,40 @@
 
 .light_square{
     display: flex;
-    background-color: rgb(255, 251, 227);
+    background-color: rgb(243, 237, 202);
     text-align: center;
     justify-content: center;
     align-items: center;
+}
+
+.pieces{
+    width: 5vw;
+    height: 5vw;
+}
+
+#start-button{
+    margin-left: 16vw;
+    margin-right: 16vw;
+    width: 8vw;
+    margin-bottom: 1.5vh;
+    margin-top: 1.5vh;
+    text-align: center;
+    font-size: 0.75vw;
+}
+
+#promote-preference{
+    text-align: center;
+    margin-left: 15vw;
+    margin-right: 15vw;
+    width: 10vw;
+    border: solid gray 1px;
+    margin-bottom: 1.5vh;
+    font-size: 0.75vw;
+}
+
+#status{
+    text-align: center;
+    margin-bottom: 2vh;
+    margin-top: 1.5vh;
+    font-size: 0.75vw;
 }
