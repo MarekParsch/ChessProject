@@ -1,3 +1,4 @@
+//global class for functions
 class Global{
     Pawn_Pieces: Pawns[] = [];
     Rook_Pieces: Rooks[] = [];
@@ -211,9 +212,9 @@ class Global{
 let World = new Global();
 
 abstract class Pieces{
-    square:number;
+    square:number;//self explanatory
     color:string;
-    highlight:boolean;
+    highlight:boolean;//whether or not we highlight it
 
     constructor(a:number, b:string){
         this.square = a;
@@ -226,7 +227,7 @@ abstract class Pieces{
     }
 
     //the function is given a destination, it checks whether or not its valid(including taking) and then will output ots validity
-    //then a different function will take that validity and either move or take a piece or not do anything of course
+    //then a different function will take that validity and either move or take a piece or not do anything of course, which is the Do_Movement function 
     abstract Movement(destination:number):boolean;
 
     Do_Movement(destination:number):boolean{
