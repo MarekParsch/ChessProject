@@ -2,6 +2,10 @@ class Utils{
     constructor(){
         this.boardsize = 8;
         this.selected = -1;
+
+        if(window.innerWidth < 800){
+            this.boardsize = 4;
+        }
     }
 
     boardsize:number;
@@ -13,10 +17,10 @@ class Utils{
 
         board_element.innerHTML = '';
         board_element.style.display = 'grid';
-        board_element.style.gridTemplateColumns = 'repeat(' + String(this.boardsize) + ',' + String(40 / this.boardsize) + 'vw)';
+        board_element.style.gridTemplateColumns = 'repeat(' + String(8) + ',' + String(40 / this.boardsize) + 'vw)';
 
-        for (let i = 0; i < this.boardsize; i++) {
-            for(let c = 0; c < this.boardsize; c++){
+        for (let i = 0; i < 8; i++) {
+            for(let c = 0; c < 8; c++){
                 if((i % 2) == 0){
                     if((c % 2) == 0){//dark-squared
                         board_element.innerHTML += '<div id="cell-' + String((i*8) + c) + '" class="dark_square" style="height:' + String(40 / this.boardsize) + 'vw; width:' + String(40 / this.boardsize) + 'vw; font-size:' + String(20 / this.boardsize) + 'vw;" onclick="Utility.Selection(' + String(i*8 + c) + ')"><img class="pieces" id="img-' + String((i*8) + c) + '"></div>';
@@ -32,6 +36,9 @@ class Utils{
                 }
             }
         }
+
+        this.boardsize = 8;
+        
         World.move = 'white';
         let element = document.getElementById('status') as HTMLOutputElement;
         element.innerText = 'Game started';
