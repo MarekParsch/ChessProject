@@ -85,4 +85,9 @@ body{
         width: 10vw;
         height: 10vw;
     }
+
+    #status{
+        font-size: 1.5vw;
+    }
+
 }
