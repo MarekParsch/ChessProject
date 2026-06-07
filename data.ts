@@ -7,7 +7,11 @@ class Global{
     Queen_Pieces: Queens[] = [];
 
     num_pawns:number = 16;
-    move:string = 'white';
+    private move:string = 'white';
+
+    get Get_Move(){
+        return this.move;
+    }
 
     Change_Play(){
         if(this.King_Pieces.length != 2){
@@ -232,7 +236,7 @@ abstract class Pieces{
     Do_Movement(destination:number):boolean{
         let valid:boolean = this.Movement(destination);
         let output:boolean = false;
-        let check:boolean = this.color == World.move;
+        let check:boolean = this.color == World.Get_Move;
 
         if(valid && check){
             let color_to_be_removed:string;
@@ -498,7 +502,7 @@ class Pawns extends Pieces{
 
     Do_Pawn_Movement(destination:number):boolean{
         let valid:boolean = this.Movement(destination);
-        let check:boolean = this.color == World.move;
+        let check:boolean = this.color == World.Get_Move;
 
         if(valid == true && this.EnPassant == true && Math.abs(destination - this.EnPassant_Piece_Square) == 8 && check == true){
             let color_to_be_removed:string;
@@ -871,7 +875,7 @@ class Kings extends Pieces{
     Do_King_Movement(destination:number):boolean{
         let valid:boolean = this.Movement(destination);
         let output:boolean = false;
-        let check:boolean = this.color == World.move;
+        let check:boolean = this.color == World.Get_Move;
         let castle_check = destination == (this.square - 2) || destination == (this.square + 2);
 
         if(valid && check && castle_check == false){

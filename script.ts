@@ -39,7 +39,10 @@ class Utils{
 
         this.boardsize = 8;
         
-        World.move = 'white';
+        if(World.Get_Move == 'black'){
+            World.Change_Play();
+        }
+
         let element = document.getElementById('status') as HTMLOutputElement;
         element.innerText = 'Game started';
     }
